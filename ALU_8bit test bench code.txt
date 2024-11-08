@@ -1,0 +1,70 @@
+`timescale 1ns / 1ps
+
+module ALU_8bit_tb;
+
+    // Declare testbench variables
+    reg [7:0] A;             // 8-bit input A
+    reg [7:0] B;             // 8-bit input B
+    reg [2:0] opcode;        // 3-bit opcode to select operation
+    wire [7:0] Result;       // 8-bit output result
+    wire carry_out;          // Carry-out for addition and subtraction
+
+    // Instantiate the ALU
+    ALU_8bit uut (
+        .A(A),
+        .B(B),
+        .opcode(opcode),
+        .Result(Result),
+        .carry_out(carry_out)
+    );
+
+    // Test Procedure
+    initial begin
+        // Display header
+        $display("Time\tA\tB\tOpcode\tResult\tCarryOut");
+
+        // Test case 1: Addition (Opcode 000)
+        A = 8'b00001010; B = 8'b00000101; opcode = 3'b000;
+        #10;
+        $display("%4dns\t%8b\t%8b\t%3b\t%8b\t%b", $time, A, B, opcode, Result, carry_out);
+
+        // Test case 2: Subtraction (Opcode 001)
+        A = 8'b00001010; B = 8'b00000011; opcode = 3'b001;
+        #10;
+        $display("%4dns\t%8b\t%8b\t%3b\t%8b\t%b", $time, A, B, opcode, Result, carry_out);
+
+        // Test case 3: AND (Opcode 010)
+        A = 8'b10101010; B = 8'b11001100; opcode = 3'b010;
+        #10;
+        $display("%4dns\t%8b\t%8b\t%3b\t%8b\t%b", $time, A, B, opcode, Result, carry_out);
+
+        // Test case 4: OR (Opcode 011)
+        A = 8'b10101010; B = 8'b11001100; opcode = 3'b011;
+        #10;
+        $display("%4dns\t%8b\t%8b\t%3b\t%8b\t%b", $time, A, B, opcode, Result, carry_out);
+
+        // Test case 5: XOR (Opcode 100)
+        A = 8'b10101010; B = 8'b11001100; opcode = 3'b100;
+        #10;
+        $display("%4dns\t%8b\t%8b\t%3b\t%8b\t%b", $time, A, B, opcode, Result, carry_out);
+
+        // Test case 6: NOT A (Opcode 101)
+        A = 8'b10101010; B = 8'b00000000; opcode = 3'b101;
+        #10;
+        $display("%4dns\t%8b\t%8b\t%3b\t%8b\t%b", $time, A, B, opcode, Result, carry_out);
+
+        // Test case 7: Logical Left Shift A (Opcode 110)
+        A = 8'b00001111; B = 8'b00000000; opcode = 3'b110;
+        #10;
+        $display("%4dns\t%8b\t%8b\t%3b\t%8b\t%b", $time, A, B, opcode, Result, carry_out);
+
+        // Test case 8: Logical Right Shift A (Opcode 111)
+        A = 8'b00001111; B = 8'b00000000; opcode = 3'b111;
+        #10;
+        $display("%4dns\t%8b\t%8b\t%3b\t%8b\t%b", $time, A, B, opcode, Result, carry_out);
+
+        // End simulation
+        $finish;
+    end
+
+endmodule
